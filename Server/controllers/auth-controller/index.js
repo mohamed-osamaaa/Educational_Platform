@@ -13,14 +13,7 @@ const registerUser = async (req, res) => {
         AcademicStage,
         role,
     } = req.body;
-    if (
-        !name ||
-        !email ||
-        !password ||
-        !phoneNumber ||
-        !AcademicStage ||
-        !role
-    ) {
+    if (!name || !email || !password || !phoneNumber || !AcademicStage) {
         return res.status(400).json({
             success: false,
             message: "All fields are required!",
@@ -106,6 +99,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
+    const userAgent = req.headers["user-agent"];
 
     if (!email || !password) {
         return res.status(400).json({
@@ -139,7 +133,7 @@ const loginUser = async (req, res) => {
             });
         }
 
-        if (user.activeSession) {
+        if (user.activeSession && user.lastUserAgent !== userAgent) {
             return res.status(403).json({
                 success: false,
                 message:
@@ -159,6 +153,7 @@ const loginUser = async (req, res) => {
         );
 
         user.activeSession = accessToken;
+        user.lastUserAgent = userAgent;
         await user.save();
 
         res.status(200).json({
