@@ -16,19 +16,20 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
-app.use(cors());
-app.options("*", cors());
+// app.options("*", cors()); // Handles preflight requests
+
 app.use(express.json());
 
-//database connection
+// Database connection
 mongoose
     .connect(MONGO_URI)
     .then(() => console.log("mongodb is connected"))
     .catch((e) => console.log(e));
 
-//routes configuration
+// Routes configuration
 app.use("/auth", authRoutes);
 
+// Global error handler
 app.use((err, req, res, next) => {
     console.log(err.stack);
     res.status(500).json({
