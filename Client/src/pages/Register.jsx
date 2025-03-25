@@ -30,7 +30,7 @@ function Register() {
     const isFormValid = Object.values(formData).every((value) => value.trim() !== "");
 
     return (
-        <div className="w-full h-full bg-cover bg-center flex justify-center items-center px-4 sm:px-6 lg:px-8" style={{ backgroundImage: `url(${bgRegister})` }}>
+        <div className="w-full h-lvh bg-cover bg-center flex justify-center items-center px-4 sm:px-6 lg:px-8" style={{ backgroundImage: `url(${bgRegister})` }}>
             <div className="flex flex-col justify-center items-center shadow-2xl w-full max-w-xl p-8 rounded-lg ">
                 <h1 className="text-3xl mb-4">سجل حساب</h1>
                 <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center shadow-2xl w-full bg-stone-100 p-10">
@@ -90,7 +90,8 @@ function Register() {
                     <div className="w-full text-right">
                         <label className="block mb-2">المرحلة الدراسية</label>
                         <select
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 text-right border rounded appearance-none"
+                            dir="rtl"
                             value={formData.AcademicStage}
                             onChange={(e) => setFormData({ ...formData, AcademicStage: e.target.value })}
                         >

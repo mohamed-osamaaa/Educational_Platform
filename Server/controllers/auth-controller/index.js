@@ -30,12 +30,14 @@ const registerUser = async (req, res) => {
             minLength: 8,
             minNumbers: 1,
             minLowercase: 1,
+            minUppercase: 1,
+            minSymbols: 1,
         })
     ) {
         return res.status(400).json({
             success: false,
             message:
-                "Password must be at least 8 characters long and include at least one number and one letter!",
+                "Password must be at least 8 characters long and include at least one number, one lowercase letter, one uppercase letter, and one special character.",
         });
     }
     if (!validator.isMobilePhone(phoneNumber, "any")) {
@@ -155,6 +157,13 @@ const loginUser = async (req, res) => {
         user.activeSession = accessToken;
         user.lastUserAgent = userAgent;
         await user.save();
+
+        // res.cookie("token", accessToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "Strict",
+        //     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        // });
 
         res.status(200).json({
             success: true,
