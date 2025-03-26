@@ -1,8 +1,12 @@
 import Header from '../components/header';
+import Home1 from '../components/Home1';
 
 function Home() {
     return (
-        <Header />
+        <>
+            <Header />
+            <Home1 />
+        </>
     )
 }
 

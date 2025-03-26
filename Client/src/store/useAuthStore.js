@@ -7,7 +7,7 @@ import { axiosInstance } from "../lib/axios.js";
 export const useAuthStore = create(
     persist(
         (set, get) => ({
-            authUser: null,
+            authUser: JSON.parse(localStorage.getItem("auth-storage")) || null,
             isSigningUp: false,
             isLoggingIn: false,
             isCheckingAuth: true,
@@ -18,7 +18,7 @@ export const useAuthStore = create(
                     set({ authUser: res.data });
                 } catch (error) {
                     console.log("Error in checkAuth:", error);
-                    set({ authUser: null });
+                    set({ authUser: get().authUser || null });
                 } finally {
                     set({ isCheckingAuth: false });
                 }
@@ -32,9 +32,15 @@ export const useAuthStore = create(
                         data
                     );
                     set({ authUser: res.data });
+                    localStorage.setItem(
+                        "auth-storage",
+                        JSON.stringify(res.data)
+                    );
                     toast.success("Account created successfully");
                 } catch (error) {
-                    toast.error(error.response.data.message);
+                    toast.error(
+                        error.response?.data?.message || "Registration failed"
+                    );
                 } finally {
                     set({ isSigningUp: false });
                 }
@@ -45,9 +51,15 @@ export const useAuthStore = create(
                 try {
                     const res = await axiosInstance.post("/auth/login", data);
                     set({ authUser: res.data });
+                    localStorage.setItem(
+                        "auth-storage",
+                        JSON.stringify(res.data)
+                    );
                     toast.success("Logged in successfully");
                 } catch (error) {
-                    toast.error(error.response.data.message);
+                    toast.error(
+                        error.response?.data?.message || "Login failed"
+                    );
                 } finally {
                     set({ isLoggingIn: false });
                 }
@@ -55,11 +67,14 @@ export const useAuthStore = create(
 
             logout: async () => {
                 try {
-                    await axiosInstance.post("/auth/logout");
+                    // await axiosInstance.post("/auth/logout");
                     set({ authUser: null });
+                    localStorage.removeItem("auth-storage");
                     toast.success("Logged out successfully");
                 } catch (error) {
-                    toast.error(error.response.data.message);
+                    toast.error(
+                        error.response?.data?.message || "Logout failed"
+                    );
                 }
             },
         }),
