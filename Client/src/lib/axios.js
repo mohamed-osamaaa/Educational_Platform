@@ -5,10 +5,14 @@ export const axiosInstance = axios.create({
     withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-    const authUser = JSON.parse(localStorage.getItem("auth-storage"));
-    if (authUser?.accessToken) {
-        config.headers.Authorization = `Bearer ${authUser.accessToken}`;
-    }
-    return config;
-});
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const accessToken = sessionStorage.getItem("accessToken") || "";
+        console.log("accessToken in interceptor:", accessToken);
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    (err) => Promise.reject(err)
+);
