@@ -1,13 +1,12 @@
-const { uploadMediaToCloudinary } = require("../../helpers/cloudinary");
 const { Course1, Course2, Course3 } = require("../../models/Courses");
 
 const getCourseModel = (courseType) => {
     switch (courseType) {
-        case "first":
+        case "1":
             return Course1;
-        case "second":
+        case "2":
             return Course2;
-        case "third":
+        case "3":
             return Course3;
         default:
             return null;
@@ -16,130 +15,53 @@ const getCourseModel = (courseType) => {
 
 const addNewCourse = async (req, res) => {
     try {
-        const { title, pricing, isFree, Lectures, courseType } = req.body;
-        if (!title || !req.file || !courseType) {
-            return res.status(400).json({
-                success: false,
-                message: "Title, image file, and courseType are required!",
-            });
-        }
-        const result = await uploadMediaToCloudinary(req.file.path);
+        const { courseType } = req.params; // Get courseType from URL params
+        const courseData = req.body;
 
         const CourseModel = getCourseModel(courseType);
         if (!CourseModel) {
             return res.status(400).json({
                 success: false,
-                message:
-                    "Invalid course type! Must be 'first', 'second', or 'third'.",
+                message: "Invalid course type!",
             });
         }
 
-        const newCourse = new CourseModel({
-            title,
-            pricing,
-            isFree,
-            image: result.secure_url,
-            Lectures,
-        });
-        const savedCourse = await newCourse.save();
+        const newlyCreatedCourse = new CourseModel(courseData);
+        const saveCourse = await newlyCreatedCourse.save();
 
         res.status(201).json({
             success: true,
-            message: "Course created successfully!",
-            data: savedCourse,
+            message: "Course saved successfully",
+            data: saveCourse,
         });
-    } catch (error) {
-        console.error(error);
+    } catch (e) {
+        console.error(e);
         res.status(500).json({
             success: false,
-            message: "Server error while creating course!",
-            error: error.message,
-        });
-    }
-};
-
-const getAllCourses = async (req, res) => {
-    try {
-        const { courseType } = req.query;
-        const CourseModel = getCourseModel(courseType);
-
-        if (!CourseModel) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Invalid course type! Use 'first', 'second', or 'third'.",
-            });
-        }
-
-        const courses = await CourseModel.find({});
-        res.status(200).json({
-            success: true,
-            data: courses,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: "Error fetching courses!",
-            error: error.message,
-        });
-    }
-};
-
-const getCourseDetailsByID = async (req, res) => {
-    try {
-        const { id, courseType } = req.params;
-        const CourseModel = getCourseModel(courseType);
-
-        if (!CourseModel) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Invalid course type! Use 'first', 'second', or 'third'.",
-            });
-        }
-
-        const course = await CourseModel.findById(id);
-        if (!course) {
-            return res.status(404).json({
-                success: false,
-                message: "Course not found!",
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            data: course,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: "Error fetching course details!",
-            error: error.message,
+            message: "Some error occurred!",
         });
     }
 };
 
 const updateCourseByID = async (req, res) => {
     try {
-        const { id, courseType } = req.params;
-        const updateData = req.body;
+        const { courseType, id } = req.params; // Get courseType and id from URL params
+        const updatedCourseData = req.body;
 
         const CourseModel = getCourseModel(courseType);
         if (!CourseModel) {
             return res.status(400).json({
                 success: false,
-                message:
-                    "Invalid course type! Use 'first', 'second', or 'third'.",
+                message: "Invalid course type!",
             });
         }
 
         const updatedCourse = await CourseModel.findByIdAndUpdate(
             id,
-            updateData,
+            updatedCourseData,
             { new: true }
         );
+
         if (!updatedCourse) {
             return res.status(404).json({
                 success: false,
@@ -149,22 +71,19 @@ const updateCourseByID = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "Course updated successfully!",
+            message: "Course updated successfully",
             data: updatedCourse,
         });
-    } catch (error) {
-        console.error(error);
+    } catch (e) {
+        console.error(e);
         res.status(500).json({
             success: false,
-            message: "Error updating course!",
-            error: error.message,
+            message: "Some error occurred!",
         });
     }
 };
 
 module.exports = {
     addNewCourse,
-    getAllCourses,
-    getCourseDetailsByID,
     updateCourseByID,
 };

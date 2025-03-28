@@ -19,14 +19,14 @@ function Home1() {
                     شد حيلك، وخلّي حلمك هو اللي يحركك.. والمكافأة جاية أقرب مما تتخيل! ❤️🔥
                 </p>
                 <div className='flex flex-row-reverse justify-center items-center space-x-6 md:space-x-10 space-x-reverse mt-7' dir='rtl'>
-                    <a href="#facebook" className="text-blue-600 text-2xl md:text-3xl">
+                    <a href="#facebook" className="text-gray-800 hover:text-blue-500 text-2xl md:text-3xl">
                         <i className="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="#whatsapp" className="text-green-500 text-2xl md:text-3xl">
+                    <a href="#whatsapp" className="text-gray-800 hover:text-green-500 text-2xl md:text-3xl">
                         <i className="fa-brands fa-whatsapp"></i>
                     </a>
                     <a
-                        className="cursor-pointer bg-orange-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl shadow-md hover:bg-orange-600 transition-all duration-300 text-sm md:text-base lg:ml-4"
+                        className="cursor-pointer bg-orange-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl shadow-md hover:bg-orange-600 transition-all duration-300 text-sm md:text-base lg:ml-10"
                         onClick={(e) => {
                             e.preventDefault();
                             const element = document.getElementById("home2");

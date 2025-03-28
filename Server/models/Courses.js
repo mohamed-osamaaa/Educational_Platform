@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
 const LectureSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    videoUrl: { type: String, required: true },
+    title: { type: String },
+    videoUrl: { type: String },
+    public_id: String,
 });
 
 const CourseSchema = new mongoose.Schema({
-    title: { type: String, required: true },
+    title: { type: String },
     pricing: { type: Number, default: 0 },
     isFree: { type: Boolean, default: true },
-    image: { type: String, required: true },
+    image: { type: String },
     Lectures: [LectureSchema],
 });
 
