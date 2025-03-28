@@ -1,37 +1,14 @@
 const mongoose = require("mongoose");
 
 const LectureProgressSchema = new mongoose.Schema({
-    lectureId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        refPath: "lectureType",
-    },
-    lectureType: {
-        type: String,
-        required: true,
-        enum: ["Course1", "Course2", "Course3"],
-    },
-    viewed: { type: Boolean, default: false },
+    lectureId: String,
+    viewed: Boolean,
 });
 
 const CourseProgressSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-    },
-    courseId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        refPath: "courseType",
-    },
-    courseType: {
-        type: String,
-        required: true,
-        enum: ["Course1", "Course2", "Course3"],
-    },
-    completed: { type: Boolean, default: false },
-    completionDate: { type: Date, default: null },
+    userId: String,
+    courseId: String,
+    completed: Boolean,
     lecturesProgress: [LectureProgressSchema],
 });
 

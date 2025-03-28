@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth-routes/index");
-const courseRoutes = require("./routes/instructor-routes/course-routes");
+const instructorRoutes = require("./routes/instructor-routes/instructor-routes");
 const mediaRoutes = require("./routes/instructor-routes/media-routes");
 
 const app = express();
@@ -31,7 +31,7 @@ mongoose
 // Routes configuration
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
-app.use("/courses", courseRoutes);
+app.use("/instructor", instructorRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
