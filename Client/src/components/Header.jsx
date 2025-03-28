@@ -8,6 +8,7 @@ import {
     LogOut,
     Menu,
     UserPlus,
+    UserRound,
     Users,
     X,
 } from 'lucide-react';
@@ -42,6 +43,10 @@ function Header() {
                             <Link to="/community" className="group text-lg flex items-center space-x-4 p-2 rounded-md hover:bg-gray-100 transition-all duration-300">
                                 <span className="text-xl w-full text-right transition-all duration-300">المجتمع</span>
                                 <Users size={32} className="text-orange-500" />
+                            </Link>
+                            <Link to="/profile" className="group text-lg flex items-center space-x-4 p-2 rounded-md hover:bg-gray-100 transition-all duration-300">
+                                <span className="text-xl w-full text-right transition-all duration-300">الملف الشخصي</span>
+                                <UserRound size={32} className="text-orange-500" />
                             </Link>
                             <button onClick={logout} className="group text-lg flex items-center space-x-4 p-2 rounded-md hover:bg-gray-100 transition-all duration-300 w-full">
                                 <span className="text-xl w-full text-right transition-all duration-300">تسجيل الخروج</span>

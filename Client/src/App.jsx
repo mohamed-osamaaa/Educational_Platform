@@ -8,6 +8,9 @@ import {
   Routes,
 } from 'react-router-dom';
 
+import Course1 from './pages/Course1';
+import Course2 from './pages/Course2';
+import Course3 from './pages/Course3';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFoundPage from './pages/NotFoundPage';
@@ -32,6 +35,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={!authUser ? <Register /> : <Navigate to="/" />} />
         <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/" />} />
+        <Route path="/course1" element={<Course1 />} />
+        <Route path="/course2" element={<Course2 />} />
+        <Route path="/course3" element={<Course3 />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
